@@ -17,9 +17,9 @@ iso8601==1.0.2
 itsdangerous==2.1.2
 Jinja2==3.1.2
 MarkupSafe==2.1.1
-metaapi-cloud-copyfactory-sdk==5.5.1
-metaapi-cloud-metastats-sdk==3.1.1
-metaapi-cloud-risk-management-sdk==1.2.0
+metaapi-cloud-copyfactory-sdk==7.1.1
+#metaapi-cloud-metastats-sdk==3.1.1
+#metaapi-cloud-risk-management-sdk==2.0.1
 metaapi-cloud-sdk==21.5.2
 multidict==6.0.2
 prettytable==3.3.0
@@ -33,7 +33,7 @@ rfc3986==1.5.0
 six==1.16.0
 sniffio==1.2.0
 tornado==6.2
-typing-extensions==3.10.0.2
+typing-extensions==4.8.0
 tzdata==2022.1
 tzlocal==4.2
 urllib3==1.25.11
