@@ -77,7 +77,7 @@ def welcome(update: Update, context: CallbackContext) -> None:
         context: CallbackContext object that stores commonly used objects in handler callbacks
     """
 
-    welcome_message = "Sea Bienvenido"
+    welcome_message = "Sea Bienvenido ver 5"
     
     # sends messages to user
     update.effective_message.reply_text(welcome_message)
