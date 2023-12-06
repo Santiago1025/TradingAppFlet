@@ -13,6 +13,16 @@ API_KEY = 'eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiJlMTAwYTQyNjdjNzM4NjRl
 
 ACCOUNT_ID = '5dc8e4fd-b397-48c2-9250-9b8cba28d193'
 
+# Telegram Credentials
+TOKEN = os.environ.get("TOKEN")
+TELEGRAM_USER = os.environ.get("TELEGRAM_USER")
+
+# Heroku Credentials
+APP_URL = os.environ.get("APP_URL")
+
+# Port number for Telegram bot web hook
+PORT = int(os.environ.get('PORT', '8443'))
+
 
 #logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
