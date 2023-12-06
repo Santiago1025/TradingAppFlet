@@ -28,6 +28,8 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 async def bucleEquidad(update: Update) -> None:
+    updater = Updater(TOKEN, use_context=True)
+    dp = updater.dispatcher
     api = MetaApi(API_KEY)
     try:
         account = await api.metatrader_account_api.get_account(ACCOUNT_ID)
@@ -58,7 +60,7 @@ async def bucleEquidad(update: Update) -> None:
             equidad = account_information['equity']
 
             update.effective_message.reply_text(f'La equidad es: {equidad}')
-            
+            dp.add_handler(CommandHandler("terminar", terminar))
             # Esperar un minuto antes de realizar la próxima actualización
             await asyncio.sleep(60)
     
@@ -74,25 +76,18 @@ def equidad(update: Update, context: CallbackContext) -> None:
         
 # Command Handlers
 def welcome(update: Update, context: CallbackContext) -> None:
-
-    welcome_message = "Sea Bienvenido ver 7"
-    
+    welcome_message = "Sea Bienvenido ver 8"
     # sends messages to user
     update.effective_message.reply_text(welcome_message)
-
     return
 
 def error(update: Update, context: CallbackContext) -> None:
-    """Logs Errors caused by updates.
-
-    Arguments:
-        update: update from Telegram
-        context: CallbackContext object that stores commonly used objects in handler callbacks
-    """
-
     logger.warning('Update "%s" caused error "%s"', update, context.error)
-
     return
+
+def terminar(update: Update, context: CallbackContext) -> None:
+    update.effective_message.reply_text("Terminando operaciones")
+    return ConversationHandler.END
 
 def main() -> None:
     """Runs the Telegram bot."""
