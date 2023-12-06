@@ -27,7 +27,12 @@ PORT = int(os.environ.get('PORT', '8443'))
 #logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-async def main():
+async def main() -> None:
+    updater = Updater(TOKEN, use_context=True)
+    # listens for incoming updates from Telegram
+    updater.start_webhook(listen="0.0.0.0", port=PORT, url_path=TOKEN, webhook_url=APP_URL + TOKEN)
+    updater.idle()
+    
     api = MetaApi(API_KEY)
     try:
         account = await api.metatrader_account_api.get_account(ACCOUNT_ID)
