@@ -11,7 +11,7 @@ from telegram.ext import CommandHandler, Filters, MessageHandler, Updater, Conve
 
 API_KEY = 'eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiJlMTAwYTQyNjdjNzM4NjRlMWE3OWMxNDNiZTVmMjdkMyIsInBlcm1pc3Npb25zIjpbXSwiYWNjZXNzUnVsZXMiOlt7ImlkIjoidHJhZGluZy1hY2NvdW50LW1hbmFnZW1lbnQtYXBpIiwibWV0aG9kcyI6WyJ0cmFkaW5nLWFjY291bnQtbWFuYWdlbWVudC1hcGk6cmVzdDpwdWJsaWM6KjoqIl0sInJvbGVzIjpbInJlYWRlciIsIndyaXRlciJdLCJyZXNvdXJjZXMiOlsiKjokVVNFUl9JRCQ6KiJdfSx7ImlkIjoibWV0YWFwaS1yZXN0LWFwaSIsIm1ldGhvZHMiOlsibWV0YWFwaS1hcGk6cmVzdDpwdWJsaWM6KjoqIl0sInJvbGVzIjpbInJlYWRlciIsIndyaXRlciJdLCJyZXNvdXJjZXMiOlsiKjokVVNFUl9JRCQ6KiJdfSx7ImlkIjoibWV0YWFwaS1ycGMtYXBpIiwibWV0aG9kcyI6WyJtZXRhYXBpLWFwaTp3czpwdWJsaWM6KjoqIl0sInJvbGVzIjpbInJlYWRlciIsIndyaXRlciJdLCJyZXNvdXJjZXMiOlsiKjokVVNFUl9JRCQ6KiJdfSx7ImlkIjoibWV0YWFwaS1yZWFsLXRpbWUtc3RyZWFtaW5nLWFwaSIsIm1ldGhvZHMiOlsibWV0YWFwaS1hcGk6d3M6cHVibGljOio6KiJdLCJyb2xlcyI6WyJyZWFkZXIiLCJ3cml0ZXIiXSwicmVzb3VyY2VzIjpbIio6JFVTRVJfSUQkOioiXX0seyJpZCI6Im1ldGFzdGF0cy1hcGkiLCJtZXRob2RzIjpbIm1ldGFzdGF0cy1hcGk6cmVzdDpwdWJsaWM6KjoqIl0sInJvbGVzIjpbInJlYWRlciJdLCJyZXNvdXJjZXMiOlsiKjokVVNFUl9JRCQ6KiJdfSx7ImlkIjoicmlzay1tYW5hZ2VtZW50LWFwaSIsIm1ldGhvZHMiOlsicmlzay1tYW5hZ2VtZW50LWFwaTpyZXN0OnB1YmxpYzoqOioiXSwicm9sZXMiOlsicmVhZGVyIiwid3JpdGVyIl0sInJlc291cmNlcyI6WyIqOiRVU0VSX0lEJDoqIl19LHsiaWQiOiJjb3B5ZmFjdG9yeS1hcGkiLCJtZXRob2RzIjpbImNvcHlmYWN0b3J5LWFwaTpyZXN0OnB1YmxpYzoqOioiXSwicm9sZXMiOlsicmVhZGVyIiwid3JpdGVyIl0sInJlc291cmNlcyI6WyIqOiRVU0VSX0lEJDoqIl19LHsiaWQiOiJtdC1tYW5hZ2VyLWFwaSIsIm1ldGhvZHMiOlsibXQtbWFuYWdlci1hcGk6cmVzdDpkZWFsaW5nOio6KiIsIm10LW1hbmFnZXItYXBpOnJlc3Q6cHVibGljOio6KiJdLCJyb2xlcyI6WyJyZWFkZXIiLCJ3cml0ZXIiXSwicmVzb3VyY2VzIjpbIio6JFVTRVJfSUQkOioiXX1dLCJ0b2tlbklkIjoiMjAyMTAyMTMiLCJpbXBlcnNvbmF0ZWQiOmZhbHNlLCJyZWFsVXNlcklkIjoiZTEwMGE0MjY3YzczODY0ZTFhNzljMTQzYmU1ZjI3ZDMiLCJpYXQiOjE3MDEzMjY0MjR9.GrNjT3nuTnS33nx4X8jwQ72Lt5k502fKxXNlXraOcQLcfrFrPCMlOc6BhjBvMhPVGvD7NVpDI2yUMOw8VtGCeUMmUaVHPmWmxX5-E4aBKFiPsRHPqD5ngCsFgYULEzucZmHIEik6FaQDmZ1odEIuQyBnmFWAmFYs4d05IhXLz-Lj1awnIsoTcVHxLVm_41q_b-P5ikT08COjbczwl9_3TN2HC09c8_lcY1iaZQbQ15GoO_SCm1xUDdq_E8mnHOuLBYoWO_cZid3JQCB6eKNKjXDNdGm9lvr7k13m4GkN-r8qQn0ER8LFipMRyRYxobl_atc5DP0jyJWHfVJST1Y2xd_bpc1jIGAhc7s6mUIMtgzUVyoru9BEo0FFVfiCo6di3vQQnfKGhOd3IDAnOxYMICOvdFj8zXI6ZcUq0etEBOPp7zAxRGS1nulYjt96TyXnYZ_w_QyAF7MYpOYngxzYgAV7-VZHEdvcC9JU6oElwCVPLb-sFKmGsdsZieIsuToTS0eNlwzqagVJNZ6ytZQaN9bzGVk7W4tQjHfExc83XB4Aqkw3D69-jrCcyw5upQwOzbUI26OxIjGe6uo_mHmmC84KK0e4YpXcxeeWsCrR8RTx0kIudp9M8LmtHJZS_Zkg-eOn0nXNdHRKRICjO1a4PFtyDQfMggvVBgGWuW6u7rw'
 
-ACCOUNT_ID = 'a812e572-57ff-4bd3-95ad-459b0ef7f0eb'
+ACCOUNT_ID = 'cb7af802-0701-4e36-b537-508520531b60'
 
 # Telegram Credentials
 TOKEN = os.environ.get("TOKEN")
@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 async def bucleEquidad(update: Update) -> None:
     tiempo_inicial = 0
-    tiempo_total = 2
+    tiempo_total = 10
     api = MetaApi(API_KEY)
     try:
         account = await api.metatrader_account_api.get_account(ACCOUNT_ID)
@@ -65,11 +65,10 @@ async def bucleEquidad(update: Update) -> None:
                 if (equidad>=1500):
                     update.effective_message.reply_text("Date prisa Goku! El balance es >1500")
                 tiempo_inicial += 1
-                update.effective_message.reply_text(f"{tiempo_inicial}")
-                await asyncio.sleep(30)
+                await asyncio.sleep(60)
             # Esperar un minuto antes de realizar la próxima actualización
             tiempo_inicial = 0
-            await asyncio.sleep(60)
+            await asyncio.sleep(7200)
     
     except Exception as error:
         logger.error(f'Error: {error}')
@@ -83,7 +82,7 @@ def equidad(update: Update, context: CallbackContext) -> None:
         
 # Command Handlers
 def welcome(update: Update, context: CallbackContext) -> None:
-    welcome_message = "Sea Bienvenido ver 9.3"
+    welcome_message = "Sea Bienvenido ver 10"
     # sends messages to user
     update.effective_message.reply_text(welcome_message)
     return
