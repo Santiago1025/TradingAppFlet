@@ -27,9 +27,8 @@ PORT = int(os.environ.get('PORT', '8443'))
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-async def equidad(update: Update, context: CallbackContext) -> None:
-    update.effective_message.reply_text("Hora de Mórfosis")
-    """api = MetaApi(API_KEY)
+async def bucleEquidad(update: Update) -> None:
+    api = MetaApi(API_KEY)
     try:
         account = await api.metatrader_account_api.get_account(ACCOUNT_ID)
         initial_state = account.state
@@ -65,7 +64,12 @@ async def equidad(update: Update, context: CallbackContext) -> None:
     
     except Exception as error:
         logger.error(f'Error: {error}')
-        update.effective_message.reply_text(f"There was an issue with the connection 😕\n\nError Message:\n{error}")"""
+        update.effective_message.reply_text(f"There was an issue with the connection 😕\n\nError Message:\n{error}")
+        return
+
+def equidad(update: Update, context: CallbackContext) -> None:
+    update.effective_message.reply_text("Hora de Mórfosis")
+    asyncio.run(bucleEquidad(update))
     return
         
 # Command Handlers
@@ -77,7 +81,7 @@ def welcome(update: Update, context: CallbackContext) -> None:
         context: CallbackContext object that stores commonly used objects in handler callbacks
     """
 
-    welcome_message = "Sea Bienvenido ver 5"
+    welcome_message = "Sea Bienvenido ver 6"
     
     # sends messages to user
     update.effective_message.reply_text(welcome_message)
