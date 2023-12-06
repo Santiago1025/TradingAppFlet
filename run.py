@@ -24,7 +24,7 @@ APP_URL = os.environ.get("APP_URL")
 PORT = int(os.environ.get('PORT', '8443'))
 
 
-#logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 async def equidad(update: Update, context: CallbackContext) -> None:
@@ -65,7 +65,7 @@ async def equidad(update: Update, context: CallbackContext) -> None:
     except Exception as error:
         logger.error(f'Error: {error}')
         update.effective_message.reply_text(f"There was an issue with the connection 😕\n\nError Message:\n{error}")
-        return ConversationHandler.END
+        return
         
 # Command Handlers
 def welcome(update: Update, context: CallbackContext) -> None:
@@ -80,6 +80,18 @@ def welcome(update: Update, context: CallbackContext) -> None:
     
     # sends messages to user
     update.effective_message.reply_text(welcome_message)
+
+    return
+
+def error(update: Update, context: CallbackContext) -> None:
+    """Logs Errors caused by updates.
+
+    Arguments:
+        update: update from Telegram
+        context: CallbackContext object that stores commonly used objects in handler callbacks
+    """
+
+    logger.warning('Update "%s" caused error "%s"', update, context.error)
 
     return
 
@@ -113,7 +125,7 @@ def main() -> None:
     #dp.add_handler(MessageHandler(Filters.text, PlaceTrade))
 
     # log all errors
-    #dp.add_error_handler(error)
+    dp.add_error_handler(error)
     
     # listens for incoming updates from Telegram
     updater.start_webhook(listen="0.0.0.0", port=PORT, url_path=TOKEN, webhook_url=APP_URL + TOKEN)
