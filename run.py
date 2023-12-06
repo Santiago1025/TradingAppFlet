@@ -27,11 +27,7 @@ PORT = int(os.environ.get('PORT', '8443'))
 #logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-async def main() -> None:
-    updater = Updater(TOKEN, use_context=True)
-    # listens for incoming updates from Telegram
-    updater.start_webhook(listen="0.0.0.0", port=PORT, url_path=TOKEN, webhook_url=APP_URL + TOKEN)
-    updater.idle()
+async def equidad(update: Update, context: CallbackContext) -> None:
     
     api = MetaApi(API_KEY)
     try:
@@ -59,16 +55,72 @@ async def main() -> None:
 
             # Obtener información de la cuenta desde el servidor de MetaTrader
             account_information = await connection.get_account_information()
-            balance = account_information['equity']
+            equidad = account_information['equity']
 
-            print(f'El balance es: {balance}')
+            update.effective_message.reply_text(f'La equidad es: {equidad}')
             
             # Esperar un minuto antes de realizar la próxima actualización
             await asyncio.sleep(60)
     
     except Exception as error:
         logger.error(f'Error: {error}')
-        print(f"There was an issue with the connection 😕\n\nError Message:\n{error}")
+        update.effective_message.reply_text(f"There was an issue with the connection 😕\n\nError Message:\n{error}")
+        return ConversationHandler.END
+        
+# Command Handlers
+def welcome(update: Update, context: CallbackContext) -> None:
+    """Sends welcome message to user.
+
+    Arguments:
+        update: update from Telegram
+        context: CallbackContext object that stores commonly used objects in handler callbacks
+    """
+
+    welcome_message = "Sea Bienvenido"
+    
+    # sends messages to user
+    update.effective_message.reply_text(welcome_message)
+
+    return
+
+def main() -> None:
+    """Runs the Telegram bot."""
+
+    updater = Updater(TOKEN, use_context=True)
+
+    # get the dispatcher to register handlers
+    dp = updater.dispatcher
+
+    # message handler
+    dp.add_handler(CommandHandler("start", welcome))
+    
+    dp.add_handler(CommandHandler("equidad", equidad))
+
+    """conv_handler = ConversationHandler(
+        entry_points=[CommandHandler("trade", Trade_Command), CommandHandler("calculate", Calculation_Command)],
+        states={
+            TRADE: [MessageHandler(Filters.text & ~Filters.command, PlaceTrade)],
+            CALCULATE: [MessageHandler(Filters.text & ~Filters.command, CalculateTrade)],
+            DECISION: [CommandHandler("yes", PlaceTrade), CommandHandler("no", cancel)]
+        },
+        fallbacks=[CommandHandler("cancel", cancel)],
+    )
+
+    # conversation handler for entering trade or calculating trade information
+    dp.add_handler(conv_handler)"""
+
+    # message handler for all messages that are not included in conversation handler
+    #dp.add_handler(MessageHandler(Filters.text, PlaceTrade))
+
+    # log all errors
+    #dp.add_error_handler(error)
+    
+    # listens for incoming updates from Telegram
+    updater.start_webhook(listen="0.0.0.0", port=PORT, url_path=TOKEN, webhook_url=APP_URL + TOKEN)
+    updater.idle()
+
+    return
+
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    main()
