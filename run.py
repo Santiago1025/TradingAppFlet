@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 async def equidad(update: Update, context: CallbackContext) -> None:
     update.effective_message.reply_text("Hora de Mórfosis")
-    api = MetaApi(API_KEY)
+    """api = MetaApi(API_KEY)
     try:
         account = await api.metatrader_account_api.get_account(ACCOUNT_ID)
         initial_state = account.state
@@ -65,8 +65,8 @@ async def equidad(update: Update, context: CallbackContext) -> None:
     
     except Exception as error:
         logger.error(f'Error: {error}')
-        update.effective_message.reply_text(f"There was an issue with the connection 😕\n\nError Message:\n{error}")
-        return
+        update.effective_message.reply_text(f"There was an issue with the connection 😕\n\nError Message:\n{error}")"""
+    return
         
 # Command Handlers
 def welcome(update: Update, context: CallbackContext) -> None:
