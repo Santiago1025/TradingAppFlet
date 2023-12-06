@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 async def bucleEquidad(update: Update) -> None:
     tiempo_inicial = 0
-    tiempo_total = 10
+    tiempo_total = 2
     api = MetaApi(API_KEY)
     try:
         account = await api.metatrader_account_api.get_account(ACCOUNT_ID)
@@ -63,13 +63,13 @@ async def bucleEquidad(update: Update) -> None:
             
             while tiempo_inicial < tiempo_total:
                 if (equidad>=1500):
-                    update.effective_message.reply_text("Date prisa Goku! El balance es =>1500")
+                    update.effective_message.reply_text("Date prisa Goku! El balance es >1500")
                 tiempo_inicial += 1
                 update.effective_message.reply_text(f"{tiempo_inicial}")
-                await asyncio.sleep(60)
+                await asyncio.sleep(30)
             # Esperar un minuto antes de realizar la próxima actualización
             tiempo_inicial = 0
-            await asyncio.sleep(120)
+            await asyncio.sleep(60)
     
     except Exception as error:
         logger.error(f'Error: {error}')
@@ -83,7 +83,7 @@ def equidad(update: Update, context: CallbackContext) -> None:
         
 # Command Handlers
 def welcome(update: Update, context: CallbackContext) -> None:
-    welcome_message = "Sea Bienvenido ver 9.2"
+    welcome_message = "Sea Bienvenido ver 9.3"
     # sends messages to user
     update.effective_message.reply_text(welcome_message)
     return
