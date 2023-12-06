@@ -11,7 +11,7 @@ from telegram.ext import CommandHandler, Filters, MessageHandler, Updater, Conve
 
 API_KEY = 'eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiJlMTAwYTQyNjdjNzM4NjRlMWE3OWMxNDNiZTVmMjdkMyIsInBlcm1pc3Npb25zIjpbXSwiYWNjZXNzUnVsZXMiOlt7ImlkIjoidHJhZGluZy1hY2NvdW50LW1hbmFnZW1lbnQtYXBpIiwibWV0aG9kcyI6WyJ0cmFkaW5nLWFjY291bnQtbWFuYWdlbWVudC1hcGk6cmVzdDpwdWJsaWM6KjoqIl0sInJvbGVzIjpbInJlYWRlciIsIndyaXRlciJdLCJyZXNvdXJjZXMiOlsiKjokVVNFUl9JRCQ6KiJdfSx7ImlkIjoibWV0YWFwaS1yZXN0LWFwaSIsIm1ldGhvZHMiOlsibWV0YWFwaS1hcGk6cmVzdDpwdWJsaWM6KjoqIl0sInJvbGVzIjpbInJlYWRlciIsIndyaXRlciJdLCJyZXNvdXJjZXMiOlsiKjokVVNFUl9JRCQ6KiJdfSx7ImlkIjoibWV0YWFwaS1ycGMtYXBpIiwibWV0aG9kcyI6WyJtZXRhYXBpLWFwaTp3czpwdWJsaWM6KjoqIl0sInJvbGVzIjpbInJlYWRlciIsIndyaXRlciJdLCJyZXNvdXJjZXMiOlsiKjokVVNFUl9JRCQ6KiJdfSx7ImlkIjoibWV0YWFwaS1yZWFsLXRpbWUtc3RyZWFtaW5nLWFwaSIsIm1ldGhvZHMiOlsibWV0YWFwaS1hcGk6d3M6cHVibGljOio6KiJdLCJyb2xlcyI6WyJyZWFkZXIiLCJ3cml0ZXIiXSwicmVzb3VyY2VzIjpbIio6JFVTRVJfSUQkOioiXX0seyJpZCI6Im1ldGFzdGF0cy1hcGkiLCJtZXRob2RzIjpbIm1ldGFzdGF0cy1hcGk6cmVzdDpwdWJsaWM6KjoqIl0sInJvbGVzIjpbInJlYWRlciJdLCJyZXNvdXJjZXMiOlsiKjokVVNFUl9JRCQ6KiJdfSx7ImlkIjoicmlzay1tYW5hZ2VtZW50LWFwaSIsIm1ldGhvZHMiOlsicmlzay1tYW5hZ2VtZW50LWFwaTpyZXN0OnB1YmxpYzoqOioiXSwicm9sZXMiOlsicmVhZGVyIiwid3JpdGVyIl0sInJlc291cmNlcyI6WyIqOiRVU0VSX0lEJDoqIl19LHsiaWQiOiJjb3B5ZmFjdG9yeS1hcGkiLCJtZXRob2RzIjpbImNvcHlmYWN0b3J5LWFwaTpyZXN0OnB1YmxpYzoqOioiXSwicm9sZXMiOlsicmVhZGVyIiwid3JpdGVyIl0sInJlc291cmNlcyI6WyIqOiRVU0VSX0lEJDoqIl19LHsiaWQiOiJtdC1tYW5hZ2VyLWFwaSIsIm1ldGhvZHMiOlsibXQtbWFuYWdlci1hcGk6cmVzdDpkZWFsaW5nOio6KiIsIm10LW1hbmFnZXItYXBpOnJlc3Q6cHVibGljOio6KiJdLCJyb2xlcyI6WyJyZWFkZXIiLCJ3cml0ZXIiXSwicmVzb3VyY2VzIjpbIio6JFVTRVJfSUQkOioiXX1dLCJ0b2tlbklkIjoiMjAyMTAyMTMiLCJpbXBlcnNvbmF0ZWQiOmZhbHNlLCJyZWFsVXNlcklkIjoiZTEwMGE0MjY3YzczODY0ZTFhNzljMTQzYmU1ZjI3ZDMiLCJpYXQiOjE3MDEzMjY0MjR9.GrNjT3nuTnS33nx4X8jwQ72Lt5k502fKxXNlXraOcQLcfrFrPCMlOc6BhjBvMhPVGvD7NVpDI2yUMOw8VtGCeUMmUaVHPmWmxX5-E4aBKFiPsRHPqD5ngCsFgYULEzucZmHIEik6FaQDmZ1odEIuQyBnmFWAmFYs4d05IhXLz-Lj1awnIsoTcVHxLVm_41q_b-P5ikT08COjbczwl9_3TN2HC09c8_lcY1iaZQbQ15GoO_SCm1xUDdq_E8mnHOuLBYoWO_cZid3JQCB6eKNKjXDNdGm9lvr7k13m4GkN-r8qQn0ER8LFipMRyRYxobl_atc5DP0jyJWHfVJST1Y2xd_bpc1jIGAhc7s6mUIMtgzUVyoru9BEo0FFVfiCo6di3vQQnfKGhOd3IDAnOxYMICOvdFj8zXI6ZcUq0etEBOPp7zAxRGS1nulYjt96TyXnYZ_w_QyAF7MYpOYngxzYgAV7-VZHEdvcC9JU6oElwCVPLb-sFKmGsdsZieIsuToTS0eNlwzqagVJNZ6ytZQaN9bzGVk7W4tQjHfExc83XB4Aqkw3D69-jrCcyw5upQwOzbUI26OxIjGe6uo_mHmmC84KK0e4YpXcxeeWsCrR8RTx0kIudp9M8LmtHJZS_Zkg-eOn0nXNdHRKRICjO1a4PFtyDQfMggvVBgGWuW6u7rw'
 
-ACCOUNT_ID = '5dc8e4fd-b397-48c2-9250-9b8cba28d193'
+ACCOUNT_ID = 'a812e572-57ff-4bd3-95ad-459b0ef7f0eb'
 
 # Telegram Credentials
 TOKEN = os.environ.get("TOKEN")
@@ -46,7 +46,8 @@ async def bucleEquidad(update: Update) -> None:
         # Conectar a la API de MetaApi
         connection = account.get_rpc_connection()
         await connection.connect()
-
+        update.effective_message.reply_text("Successfully conectao!🤔")
+        
         while True:
             # Esperar hasta que el estado del terminal se haya sincronizado con el estado local
             logger.info('Esperando que SDK se sincronice con el estado del terminal ...')
@@ -54,7 +55,6 @@ async def bucleEquidad(update: Update) -> None:
 
             # Obtener información de la cuenta desde el servidor de MetaTrader
             account_information = await connection.get_account_information()
-            update.effective_message.reply_text("Successfully connected to MetaTrader!🤔")
             equidad = account_information['equity']
 
             update.effective_message.reply_text(f'La equidad es: {equidad}')
@@ -64,7 +64,7 @@ async def bucleEquidad(update: Update) -> None:
     
     except Exception as error:
         logger.error(f'Error: {error}')
-        update.effective_message.reply_text(f"There was an issue with the connection 😕\n\nError Message:\n{error}")
+        update.effective_message.reply_text(f"There was a problema con la conexión 😕\n\nError Message:\n{error}")
         return
 
 def equidad(update: Update, context: CallbackContext) -> None:
@@ -74,14 +74,8 @@ def equidad(update: Update, context: CallbackContext) -> None:
         
 # Command Handlers
 def welcome(update: Update, context: CallbackContext) -> None:
-    """Sends welcome message to user.
 
-    Arguments:
-        update: update from Telegram
-        context: CallbackContext object that stores commonly used objects in handler callbacks
-    """
-
-    welcome_message = "Sea Bienvenido ver 6"
+    welcome_message = "Sea Bienvenido ver 7"
     
     # sends messages to user
     update.effective_message.reply_text(welcome_message)
@@ -112,22 +106,6 @@ def main() -> None:
     dp.add_handler(CommandHandler("start", welcome))
     
     dp.add_handler(CommandHandler("equidad", equidad))
-
-    """conv_handler = ConversationHandler(
-        entry_points=[CommandHandler("trade", Trade_Command), CommandHandler("calculate", Calculation_Command)],
-        states={
-            TRADE: [MessageHandler(Filters.text & ~Filters.command, PlaceTrade)],
-            CALCULATE: [MessageHandler(Filters.text & ~Filters.command, CalculateTrade)],
-            DECISION: [CommandHandler("yes", PlaceTrade), CommandHandler("no", cancel)]
-        },
-        fallbacks=[CommandHandler("cancel", cancel)],
-    )
-
-    # conversation handler for entering trade or calculating trade information
-    dp.add_handler(conv_handler)"""
-
-    # message handler for all messages that are not included in conversation handler
-    #dp.add_handler(MessageHandler(Filters.text, PlaceTrade))
 
     # log all errors
     dp.add_error_handler(error)
