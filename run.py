@@ -28,7 +28,8 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 async def bucleEquidad(update: Update) -> None:
-    should_exit = False
+    tiempo_inicial = 0
+    tiempo_total = 10
     api = MetaApi(API_KEY)
     try:
         account = await api.metatrader_account_api.get_account(ACCOUNT_ID)
@@ -60,13 +61,14 @@ async def bucleEquidad(update: Update) -> None:
 
             update.effective_message.reply_text(f'La equidad es: {equidad}')
             
-            while not should_exit:
+            while tiempo_inicial < tiempo_total:
                 if (equidad>=1500):
                     update.effective_message.reply_text("Date prisa Goku! El balance es =>1500")
-                    should_exit = True
-                else:
-                    await asyncio.sleep(60)
+                tiempo_inicial += 1
+                update.effective_message.reply_text(f"{tiempo_inicial}")
+                await asyncio.sleep(60)
             # Esperar un minuto antes de realizar la próxima actualización
+            tiempo_inicial = 0
             await asyncio.sleep(120)
     
     except Exception as error:
@@ -81,7 +83,7 @@ def equidad(update: Update, context: CallbackContext) -> None:
         
 # Command Handlers
 def welcome(update: Update, context: CallbackContext) -> None:
-    welcome_message = "Sea Bienvenido ver 9"
+    welcome_message = "Sea Bienvenido ver 9.2"
     # sends messages to user
     update.effective_message.reply_text(welcome_message)
     return
@@ -106,6 +108,8 @@ def main() -> None:
     dp.add_handler(CommandHandler("start", welcome))
     
     dp.add_handler(CommandHandler("equidad", equidad))
+
+    dp.add_handler(CommandHandler("terminar", terminar))
 
     # log all errors
     dp.add_error_handler(error)
