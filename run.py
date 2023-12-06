@@ -61,6 +61,10 @@ async def bucleEquidad(update: Update) -> None:
 
             update.effective_message.reply_text(f'La equidad es: {equidad}')
             dp.add_handler(CommandHandler("terminar", terminar))
+            
+            if (equidad>=1500):
+                update.effective_message.reply_text("Date prisa Goku! El balance es =>1500")
+            
             # Esperar un minuto antes de realizar la próxima actualización
             await asyncio.sleep(60)
     
