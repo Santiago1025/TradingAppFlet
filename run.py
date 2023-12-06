@@ -28,7 +28,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 async def equidad(update: Update, context: CallbackContext) -> None:
-    
+    update.effective_message.reply_text("Hora de Mórfosis")
     api = MetaApi(API_KEY)
     try:
         account = await api.metatrader_account_api.get_account(ACCOUNT_ID)
@@ -55,6 +55,7 @@ async def equidad(update: Update, context: CallbackContext) -> None:
 
             # Obtener información de la cuenta desde el servidor de MetaTrader
             account_information = await connection.get_account_information()
+            update.effective_message.reply_text("Successfully connected to MetaTrader!🤔")
             equidad = account_information['equity']
 
             update.effective_message.reply_text(f'La equidad es: {equidad}')
