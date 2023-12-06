@@ -62,8 +62,11 @@ async def bucleEquidad(update: Update) -> None:
             
             if (equidad>=1500):
                 update.effective_message.reply_text("Date prisa Goku! El balance es >1500")
+                
+            if (equidad<=10):
+                update.effective_message.reply_text("Faliure")
             # Esperar un minuto antes de realizar la próxima actualización
-            await asyncio.sleep(60)
+            await asyncio.sleep(540)
     
     except Exception as error:
         logger.error(f'Error: {error}')
