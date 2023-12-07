@@ -46,27 +46,27 @@ async def bucleEquidad(update: Update) -> None:
         # Conectar a la API de MetaApi
         connection = account.get_rpc_connection()
         await connection.connect()
-        update.effective_message.reply_text("Successfully conectao!🤔")
+        #update.effective_message.reply_text("Successfully conectao!🤔")
         
-        while True:
-            # Esperar hasta que el estado del terminal se haya sincronizado con el estado local
-            logger.info('Esperando que SDK se sincronice con el estado del terminal ...')
-            await connection.wait_synchronized()
+        
+        # Esperar hasta que el estado del terminal se haya sincronizado con el estado local
+        logger.info('Esperando que SDK se sincronice con el estado del terminal ...')
+        await connection.wait_synchronized()
 
-            # Obtener información de la cuenta desde el servidor de MetaTrader
-            account_information = await connection.get_account_information()
-            equidad = account_information['equity']
+        # Obtener información de la cuenta desde el servidor de MetaTrader
+        account_information = await connection.get_account_information()
+        equidad = account_information['equity']
 
-            update.effective_message.reply_text(f'La equidad es: {equidad}')
+        update.effective_message.reply_text(f'La equidad es: {equidad}')
             
             
-            if (equidad>=1500):
-                update.effective_message.reply_text("Date prisa Goku! El balance es >1500")
+        if (equidad>=1500):
+            update.effective_message.reply_text("Date prisa Goku! El balance es >1500")
                 
-            if (equidad<=10):
-                update.effective_message.reply_text("Faliure")
-            # Esperar un minuto antes de realizar la próxima actualización
-            await asyncio.sleep(540)
+        if (equidad<=10):
+            update.effective_message.reply_text("Faliure")
+        # Esperar un minuto antes de realizar la próxima actualización
+        return
     
     except Exception as error:
         logger.error(f'Error: {error}')
@@ -74,13 +74,13 @@ async def bucleEquidad(update: Update) -> None:
         return
 
 def equidad(update: Update, context: CallbackContext) -> None:
-    update.effective_message.reply_text("Hora de Mórfosis")
+    #update.effective_message.reply_text("Hora de Mórfosis")
     asyncio.run(bucleEquidad(update))
     return
         
 # Command Handlers
 def welcome(update: Update, context: CallbackContext) -> None:
-    welcome_message = "Sea Bienvenido ver 10.1"
+    welcome_message = "Sea Bienvenido ver 10.3"
     # sends messages to user
     update.effective_message.reply_text(welcome_message)
     return
@@ -104,7 +104,7 @@ def main() -> None:
     # message handler
     dp.add_handler(CommandHandler("start", welcome))
     
-    dp.add_handler(CommandHandler("equidad", equidad))
+    dp.add_handler(CommandHandler("trade", equidad))
 
     dp.add_handler(CommandHandler("terminar", terminar))
 
