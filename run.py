@@ -58,13 +58,9 @@ async def bucleEquidad(update: Update) -> None:
         equidad = account_information['equity']
 
         update.effective_message.reply_text(f'La equidad es: {equidad}')
-            
-            
-        if (equidad>=1500):
-            update.effective_message.reply_text("Date prisa Goku! El balance es >1500")
-                
+
         if (equidad<=10):
-            update.effective_message.reply_text("Faliure")
+            update.effective_message.reply_text("Success")
         # Esperar un minuto antes de realizar la próxima actualización
         return
     
