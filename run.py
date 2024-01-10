@@ -64,11 +64,14 @@ async def bucleEquidad(update: Update) -> None:
         # Obtener información de la cuenta desde el servidor de MetaTrader
         account_information1 = await connection1.get_account_information()
         account_information2 = await connection2.get_account_information()
+        
         equidad1 = account_information1['equity']
         equidad2 = account_information2['equity']
+        
+        balance1 = account_information1['balance']
+        balance2 = account_information2['balance']
 
-        update.effective_message.reply_text(f'Pursuit: {equidad1} Liberty: {equidad2}')
-        #update.effective_message.reply_text(f'La equidad Liberty es: {equidad2}')
+        update.effective_message.reply_text(f'Pursuit: {equidad1}({balance1}) Liberty: {equidad2}({balance2})')
         return
     
     except Exception as error:
